@@ -58,7 +58,7 @@ public class PersonService {
         person.setPosition(position);
         personRepository.save(person);
     }
-    // updatedPerson не може містити пусті поля, position відповідає певному department, валідація на фронті
+
     public void updatePerson (Person updatedPerson) {
         long id = updatedPerson.getId();
         Person person = personRepository.findById(id)

@@ -38,7 +38,6 @@ public class DepartmentService {
         departmentRepository.save(department);
     }
 
-    // updatedDepartment не може містити пусті поля
     public void updateDepartment(Department updatedDepartment) {
 
         long id = updatedDepartment.getId();

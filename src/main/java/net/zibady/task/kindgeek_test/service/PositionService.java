@@ -58,8 +58,11 @@ public class PositionService {
             if (updatedPosition.getName() != null && !updatedPosition.getName().isEmpty())
                 position.setName(updatedPosition.getName());
 
-//            if (updatedPosition.getDepartment() != null) todo Чи можна міняти department при редагуванні position???!!!
-//                position.setDepartment(updatedPosition.getDepartment());
+            if (updatedPosition.getDepartment() != null) {
+                Department department = departmentService.getDepartment(updatedPosition.getDepartment().getId());
+                position.setDepartment(department);
+            }
+
         positionRepository.save(position);
     }
 
