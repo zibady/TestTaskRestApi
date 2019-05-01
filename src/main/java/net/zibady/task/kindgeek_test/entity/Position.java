@@ -3,6 +3,7 @@ package net.zibady.task.kindgeek_test.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
@@ -12,9 +13,11 @@ public class Position {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @Column(nullable = false, length = 50)
     private String name;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "department_id")
     private Department department;
