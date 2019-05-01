@@ -68,9 +68,9 @@ public class PersonService {
             person.setName(updatedPerson.getName());
         }
 
-        Project project = projectService.getProject(person.getProject().getId());
-        Department department = departmentService.getDepartment(person.getDepartment().getId());
-        Position position = positionService.getPosition(person.getPosition().getId());
+        Project project = projectService.getProject(updatedPerson.getProject().getId());
+        Department department = departmentService.getDepartment(updatedPerson.getDepartment().getId());
+        Position position = positionService.getPosition(updatedPerson.getPosition().getId());
 
         person.setDepartment(department);
 
