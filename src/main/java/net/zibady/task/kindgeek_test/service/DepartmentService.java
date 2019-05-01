@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @Service
@@ -27,7 +28,7 @@ public class DepartmentService {
     public Department getDepartment(long id) {
 
         return departmentRepository.findById(id)
-                .orElseThrow(() -> new DepartmentNotFoundException("Department with id - " + id + " doesn't exist"));
+                .orElseThrow(() -> new DepartmentNotFoundException("Department with id : " + id + " doesn't exist"));
     }
 
     public void addDepartment(Department department) {
@@ -41,7 +42,7 @@ public class DepartmentService {
     public void updateDepartment(Department updatedDepartment) {
 
         long id = updatedDepartment.getId();
-        Department department = departmentRepository.findById(id).orElseThrow(() -> new DepartmentNotFoundException("Department with id - " + id + " doesn't exist"));
+        Department department = departmentRepository.findById(id).orElseThrow(() -> new DepartmentNotFoundException("Department with id : " + id + " doesn't exist"));
 
         if (updatedDepartment.getName() != null && !updatedDepartment.getName().isEmpty()) {
             department.setName(updatedDepartment.getName());
@@ -53,7 +54,7 @@ public class DepartmentService {
         try {
             departmentRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new DepartmentNotFoundException("Department with id - " + id + " doesn't exist");
+            throw new DepartmentNotFoundException("Department with id : " + id + " doesn't exist");
         }
     }
 }

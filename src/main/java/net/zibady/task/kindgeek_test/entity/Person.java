@@ -15,7 +15,7 @@ public class Person {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "position_id")
+    @JoinColumn(name = "position_id" )
     private Position position;
 
     @ManyToOne

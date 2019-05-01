@@ -33,7 +33,7 @@ public class PersonService {
     public Person getPerson (Long id) {
 
         return personRepository.findById(id)
-                .orElseThrow(() -> new PersonNotFoundException("Person with id - " + id + " doesn't exist"));
+                .orElseThrow(() -> new PersonNotFoundException("Person with id : " + id + " doesn't exist"));
     }
 
     public List<Person> getAllPeople () {
@@ -49,7 +49,7 @@ public class PersonService {
         Set<Position> positions = department.getPositions();
         if (!positions.contains(position)) {
             throw new PositionNotFoundException(
-                    String.format("Position with id - %d doesn't exist in Department - %s",
+                    String.format("Position with id : %d doesn't exist in Department - %s",
                             position.getId(), department.getName()));
         }
 
@@ -62,7 +62,7 @@ public class PersonService {
     public void updatePerson (Person updatedPerson) {
         long id = updatedPerson.getId();
         Person person = personRepository.findById(id)
-                        .orElseThrow(() -> new PersonNotFoundException("Person with id - " + id + " doesn't exist"));
+                        .orElseThrow(() -> new PersonNotFoundException("Person with id : " + id + " doesn't exist"));
 
         if (updatedPerson.getName() != null && !updatedPerson.getName().isEmpty()) {
             person.setName(updatedPerson.getName());
@@ -77,7 +77,7 @@ public class PersonService {
         Set<Position> positions = department.getPositions();
         if (!positions.contains(position)) {
             throw new PositionNotFoundException(
-                    String.format("Position with id - %d doesn't exist in Department - %s",
+                    String.format("Position with id : %d doesn't exist in Department - %s",
                             position.getId(), updatedPerson.getDepartment().getName()));
         }
         person.setPosition(position);
@@ -90,7 +90,7 @@ public class PersonService {
         try {
             personRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new PersonNotFoundException("Person with id - " + id + " doesn't exist");
+            throw new PersonNotFoundException("Person with id : " + id + " doesn't exist");
         }
     }
 

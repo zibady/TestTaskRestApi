@@ -30,7 +30,7 @@ public class PositionService {
     public Position getPosition(long id) {
 
         return positionRepository.findById(id)
-                .orElseThrow(() -> new PositionNotFoundException("Position with id - " + id + " doesn't exist"));
+                .orElseThrow(() -> new PositionNotFoundException("Position with id : " + id + " doesn't exist"));
     }
 
     public void addPosition(Position position) {
@@ -53,7 +53,7 @@ public class PositionService {
 
         long id = updatedPosition.getId();
         Position position = positionRepository.findById(id)
-                            .orElseThrow(() -> new  PositionNotFoundException("Position with id - " + id + " doesn't exist"));
+                            .orElseThrow(() -> new  PositionNotFoundException("Position with id : " + id + " doesn't exist"));
 
             if (updatedPosition.getName() != null && !updatedPosition.getName().isEmpty())
                 position.setName(updatedPosition.getName());
@@ -70,7 +70,7 @@ public class PositionService {
         try {
             positionRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new PositionNotFoundException("Position with id - " + id + " doesn't exist");
+            throw new PositionNotFoundException("Position with id : " + id + " doesn't exist");
         }
     }
 }

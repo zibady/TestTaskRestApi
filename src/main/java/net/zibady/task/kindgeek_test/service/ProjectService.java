@@ -27,7 +27,7 @@ public class ProjectService {
     public Project getProject(long id) {
 
         return projectRepository.findById(id)
-                .orElseThrow(() -> new ProjectNotFoundException("Project with id - " + id + " doesn't exist"));
+                .orElseThrow(() -> new ProjectNotFoundException("Project with id : " + id + " doesn't exist"));
     }
 
     public void addProject(Project project) {
@@ -42,7 +42,7 @@ public class ProjectService {
 
         long id = updatedProject.getId();
         Project project = projectRepository.findById(id)
-                .orElseThrow(() -> new ProjectNotFoundException("Project with id - " + id + " doesn't exist"));
+                .orElseThrow(() -> new ProjectNotFoundException("Project with id : " + id + " doesn't exist"));
 
         if (updatedProject.getName() != null && !updatedProject.getName().isEmpty())
             project.setName(updatedProject.getName());
@@ -56,7 +56,7 @@ public class ProjectService {
         try {
             projectRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new ProjectNotFoundException("Project with id - " + id + " doesn't exist");
+            throw new ProjectNotFoundException("Project with id : " + id + " doesn't exist");
         }
     }
 }

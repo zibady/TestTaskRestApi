@@ -17,12 +17,12 @@ public class Department {
     @Column(unique = true, nullable = false, length = 50)
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "department")
     @JsonIgnore
+    @OneToMany(/*cascade = CascadeType.ALL, */mappedBy = "department")
     private Set<Position> positions;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "department")
     @JsonIgnore
+    @OneToMany(mappedBy = "department")
     private Set<Person> people;
 
     public Department() {

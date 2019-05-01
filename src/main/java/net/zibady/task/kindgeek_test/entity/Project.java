@@ -19,8 +19,8 @@ public class Project {
 
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "project")
     @JsonIgnore
+    @OneToMany(mappedBy = "project")
     private Set<Person> people;
 
     public Project() {

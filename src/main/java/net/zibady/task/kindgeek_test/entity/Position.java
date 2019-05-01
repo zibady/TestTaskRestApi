@@ -22,8 +22,8 @@ public class Position {
     @JoinColumn(name = "department_id")
     private Department department;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "position")
     @JsonIgnore
+    @OneToMany(mappedBy = "position")
     private Set<Person> people;
 
     public Position() {
