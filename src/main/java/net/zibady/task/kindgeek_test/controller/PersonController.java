@@ -17,33 +17,29 @@ public class PersonController {
         this.personService = personService;
     }
 
-    //список працівників
     @GetMapping
     public List<Person> allEmployees() {
 
         return personService.getAllPeople();
     }
 
-    // отримати опис працівника
     @GetMapping("/{id}")
     public Person getEmployee(@PathVariable long id) {
 
         return personService.getPerson(id);
     }
 
-    //добавити нового працівника
     @PostMapping
     public void addEmployee(@RequestBody Person person) {
 
         personService.addPerson(person);
     }
 
-    // оновити дані працівника
-    @PutMapping("/{id}")
-    public void updateEmployee(@RequestBody Person person, @PathVariable long id) {
-        personService.updatePerson(id, person);
+    @PutMapping
+    public void updateEmployee(@RequestBody Person person) {
+        personService.updatePerson(person);
     }
-    // видалити працівника
+
     @DeleteMapping("/{id}")
     public void deleteEmployee(@PathVariable long id) {
         personService.deletePerson(id);

@@ -5,10 +5,10 @@ import net.zibady.task.kindgeek_test.exception.DepartmentException;
 import net.zibady.task.kindgeek_test.exception.DepartmentNotFoundException;
 import net.zibady.task.kindgeek_test.repository.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DepartmentService {
@@ -24,6 +24,12 @@ public class DepartmentService {
     }
 
 
+    public Department getDepartment(long id) {
+
+        return departmentRepository.findById(id)
+                .orElseThrow(() -> new DepartmentNotFoundException("Department with id - " + id + " doesn't exist"));
+    }
+
     public void addDepartment(Department department) {
 
         if (department.getName() == null || department.getName().isEmpty())
@@ -32,37 +38,23 @@ public class DepartmentService {
         departmentRepository.save(department);
     }
 
-    public Department getDepartment(long id) {
-        Optional<Department> department = departmentRepository.findById(id);
+    // updatedDepartment не може містити пусті поля
+    public void updateDepartment(Department updatedDepartment) {
 
-        if (!department.isPresent())
-            throw new DepartmentNotFoundException("Department with id - " + id + " doesn't exist");
+        long id = updatedDepartment.getId();
+        Department department = departmentRepository.findById(id).orElseThrow(() -> new DepartmentNotFoundException("Department with id - " + id + " doesn't exist"));
 
-        return department.get();
-    }
-
-    public void updateDepartment(Department newDepartment, long id) {
-        Optional<Department> departmentOptional = departmentRepository.findById(id);
-        Department department;
-
-        if (!departmentOptional.isPresent()) {
-            throw new DepartmentNotFoundException("Department with id - " + id + " doesn't exist");
-        } else {
-            department = departmentOptional.get();
-
-            if (newDepartment.getName() != null && !newDepartment.getName().isEmpty())
-                department.setName(newDepartment.getName());
-
-            departmentRepository.save(department);
+        if (updatedDepartment.getName() != null && !updatedDepartment.getName().isEmpty()) {
+            department.setName(updatedDepartment.getName());
         }
+            departmentRepository.save(department);
     }
 
     public void deleteDepartment(long id) {
-        Optional<Department> department = departmentRepository.findById(id);
-
-        if (!department.isPresent())
+        try {
+            departmentRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
             throw new DepartmentNotFoundException("Department with id - " + id + " doesn't exist");
-
-         departmentRepository.deleteById(id);
+        }
     }
 }

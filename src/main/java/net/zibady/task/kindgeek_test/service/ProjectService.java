@@ -5,10 +5,10 @@ import net.zibady.task.kindgeek_test.exception.ProjectException;
 import net.zibady.task.kindgeek_test.exception.ProjectNotFoundException;
 import net.zibady.task.kindgeek_test.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProjectService {
@@ -25,11 +25,9 @@ public class ProjectService {
     }
 
     public Project getProject(long id) {
-        Optional<Project> project = projectRepository.findById(id);
-        if (!project.isPresent())
-            throw new ProjectNotFoundException("Project with id - " + id + " doesn't exist");
 
-        return project.get();
+        return projectRepository.findById(id)
+                .orElseThrow(() -> new ProjectNotFoundException("Project with id - " + id + " doesn't exist"));
     }
 
     public void addProject(Project project) {
@@ -40,29 +38,25 @@ public class ProjectService {
         projectRepository.save(project);
     }
 
-    public void updateProject(long id, Project newProject) {
-        Optional<Project> projectOptional = projectRepository.findById(id);
-        Project project;
+    public void updateProject(Project updatedProject) {
 
-        if (!projectOptional.isPresent())
-            throw new ProjectNotFoundException("Project with id - " + id + " doesn't exist");
+        long id = updatedProject.getId();
+        Project project = projectRepository.findById(id)
+                .orElseThrow(() -> new ProjectNotFoundException("Project with id - " + id + " doesn't exist"));
 
-        project = projectOptional.get();
-
-        if (newProject.getName() != null && !newProject.getName().isEmpty())
-            project.setName(newProject.getName());
-        if (newProject.getDescription() != null && !newProject.getDescription().isEmpty())
-            project.setDescription(newProject.getDescription());
+        if (updatedProject.getName() != null && !updatedProject.getName().isEmpty())
+            project.setName(updatedProject.getName());
+        if (updatedProject.getDescription() != null && !updatedProject.getDescription().isEmpty())
+            project.setDescription(updatedProject.getDescription());
 
         projectRepository.save(project);
     }
 
     public void deleteProject(long id) {
-        Optional<Project> project = projectRepository.findById(id);
-
-        if (!project.isPresent())
+        try {
+            projectRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
             throw new ProjectNotFoundException("Project with id - " + id + " doesn't exist");
-
-        projectRepository.deleteById(id);
+        }
     }
 }

@@ -35,12 +35,11 @@ public class ProjectController {
         projectService.addProject(project);
     }
 
-    // оновити дані про посаду
-    @PutMapping("/{id}")
-    public void updateProject(@RequestBody Project project, @PathVariable long id) {
-        projectService.updateProject(id, project);
+    @PutMapping
+    public void updateProject(@RequestBody Project project) {
+        projectService.updateProject(project);
     }
-    // видалити працівника
+
     @DeleteMapping("/{id}")
     public void deleteProject(@PathVariable long id) {
         projectService.deleteProject(id);

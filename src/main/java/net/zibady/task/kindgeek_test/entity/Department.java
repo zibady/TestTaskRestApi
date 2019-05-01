@@ -16,13 +16,10 @@ public class Department {
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "department")
-//    @JsonBackReference()
-//    @Transient
     @JsonIgnore
     private Set<Position> positions;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "department")
-//    @JsonBackReference
     @JsonIgnore
     private Set<Person> people;
 

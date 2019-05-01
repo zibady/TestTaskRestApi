@@ -2,15 +2,14 @@ package net.zibady.task.kindgeek_test.service;
 
 import net.zibady.task.kindgeek_test.entity.Department;
 import net.zibady.task.kindgeek_test.entity.Position;
-import net.zibady.task.kindgeek_test.exception.DepartmentNotFoundException;
 import net.zibady.task.kindgeek_test.exception.PositionException;
 import net.zibady.task.kindgeek_test.exception.PositionNotFoundException;
 import net.zibady.task.kindgeek_test.repository.PositionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PositionService {
@@ -29,52 +28,46 @@ public class PositionService {
 
 
     public Position getPosition(long id) {
-        Optional<Position> position = positionRepository.findById(id);
 
-        if (!position.isPresent())
-            throw new PositionNotFoundException("Position with id - " + id + " doesn't exist");
-
-        return position.get();
+        return positionRepository.findById(id)
+                .orElseThrow(() -> new PositionNotFoundException("Position with id - " + id + " doesn't exist"));
     }
 
     public void addPosition(Position position) {
 
         if (position.getName() == null || position.getName().isEmpty())
             throw new PositionException("Position name can't be empty\n");
+
         if (position.getDepartment() == null )
             throw new PositionException("Position should belong to department. Department name can't be empty\n");
 
-        Department department = departmentService.getDepartment(position.getDepartment().getId()); //todo repo logger
-        if (!departmentService.getAllDepartments().contains(department)) {
-            throw new DepartmentNotFoundException(String.format("Position should belong to department. " +
-                                                "Department with id - %d doesn't exist", position.getDepartment().getId()));
-        }
+        Department department = departmentService.getDepartment(position.getDepartment().getId());
+
         position.setDepartment(department);
 
         positionRepository.save(position);
 
     }
 
-    public void updatePosition(long id, Position newPosition) {
-        Optional<Position> positionOptional = positionRepository.findById(id);
-        Position position;
-        if (!positionOptional.isPresent()) {
-            throw new PositionNotFoundException("Position with id - " + id + " doesn't exist");
-        } else {
-            position = positionOptional.get();
-            if (newPosition.getName() != null && !newPosition.getName().isEmpty())
-                position.setName(newPosition.getName());
-            if (newPosition.getDepartment() != null)
-                position.setDepartment(newPosition.getDepartment());
-        }
+    public void updatePosition(Position updatedPosition) {
+
+        long id = updatedPosition.getId();
+        Position position = positionRepository.findById(id)
+                            .orElseThrow(() -> new  PositionNotFoundException("Position with id - " + id + " doesn't exist"));
+
+            if (updatedPosition.getName() != null && !updatedPosition.getName().isEmpty())
+                position.setName(updatedPosition.getName());
+
+//            if (updatedPosition.getDepartment() != null) todo Чи можна міняти department при редагуванні position???!!!
+//                position.setDepartment(updatedPosition.getDepartment());
+        positionRepository.save(position);
     }
 
     public void deletePosition(long id) {
-        Optional<Position> position = positionRepository.findById(id);
-
-        if (!position.isPresent())
+        try {
+            positionRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
             throw new PositionNotFoundException("Position with id - " + id + " doesn't exist");
-
-        positionRepository.deleteById(id);
+        }
     }
 }

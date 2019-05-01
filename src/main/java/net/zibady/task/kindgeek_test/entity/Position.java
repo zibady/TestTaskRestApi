@@ -1,6 +1,5 @@
 package net.zibady.task.kindgeek_test.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -16,10 +15,8 @@ public class Position {
     @Column(nullable = false, length = 50)
     private String name;
 
-    @ManyToOne(optional=false, cascade=CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "department_id")
-//    @JsonBackReference
-//    @Transient
     private Department department;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "position")
