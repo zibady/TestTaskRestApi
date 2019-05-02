@@ -56,7 +56,7 @@ public class DepartmentService {
         } catch (EmptyResultDataAccessException e) {
             throw new DepartmentNotFoundException("Department with id : " + id + " doesn't exist");
         } catch (DataIntegrityViolationException ex) {
-                throw new DepartmentException("Department include positions and people who works in this department. Delete positions/people and repeat!");
+                throw new DepartmentException("Current Department has assigned position or people. Please unassign or delete them to delete the Department");
         }
     }
 }

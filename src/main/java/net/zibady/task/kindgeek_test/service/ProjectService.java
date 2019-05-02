@@ -59,7 +59,7 @@ public class ProjectService {
         } catch (EmptyResultDataAccessException e) {
             throw new ProjectNotFoundException("Project with id : " + id + " doesn't exist");
         } catch (DataIntegrityViolationException ex) {
-            throw new ProjectException("Project include people who works on it. Delete people and repeat!");
+            throw new ProjectException("Current Project has assigned people. Please, unassign or delete them to delete the Project");
         }
     }
 }

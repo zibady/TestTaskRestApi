@@ -74,7 +74,7 @@ public class PositionService {
         } catch (EmptyResultDataAccessException e) {
             throw new PositionNotFoundException("Position with id : " + id + " doesn't exist");
         } catch (DataIntegrityViolationException ex) {
-            throw new PositionException("Position include people who works on it. Delete people and repeat!");
+            throw new PositionException("Current Position has assigned people. Please, unassign or delete them to delete the Position");
         }
     }
 }
