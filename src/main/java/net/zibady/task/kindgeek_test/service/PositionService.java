@@ -2,10 +2,12 @@ package net.zibady.task.kindgeek_test.service;
 
 import net.zibady.task.kindgeek_test.entity.Department;
 import net.zibady.task.kindgeek_test.entity.Position;
+import net.zibady.task.kindgeek_test.exception.DepartmentException;
 import net.zibady.task.kindgeek_test.exception.PositionException;
 import net.zibady.task.kindgeek_test.exception.PositionNotFoundException;
 import net.zibady.task.kindgeek_test.repository.PositionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -71,6 +73,8 @@ public class PositionService {
             positionRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             throw new PositionNotFoundException("Position with id : " + id + " doesn't exist");
+        } catch (DataIntegrityViolationException ex) {
+            throw new PositionException("Position include people who works on it. Delete people and repeat!");
         }
     }
 }

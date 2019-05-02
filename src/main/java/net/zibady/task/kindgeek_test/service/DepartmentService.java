@@ -5,10 +5,10 @@ import net.zibady.task.kindgeek_test.exception.DepartmentException;
 import net.zibady.task.kindgeek_test.exception.DepartmentNotFoundException;
 import net.zibady.task.kindgeek_test.repository.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @Service
@@ -55,6 +55,8 @@ public class DepartmentService {
             departmentRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             throw new DepartmentNotFoundException("Department with id : " + id + " doesn't exist");
+        } catch (DataIntegrityViolationException ex) {
+                throw new DepartmentException("Department include positions and people who works in this department. Delete positions/people and repeat!");
         }
     }
 }

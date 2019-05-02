@@ -5,6 +5,7 @@ import net.zibady.task.kindgeek_test.exception.ProjectException;
 import net.zibady.task.kindgeek_test.exception.ProjectNotFoundException;
 import net.zibady.task.kindgeek_test.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -57,6 +58,8 @@ public class ProjectService {
             projectRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             throw new ProjectNotFoundException("Project with id : " + id + " doesn't exist");
+        } catch (DataIntegrityViolationException ex) {
+            throw new ProjectException("Project include people who works on it. Delete people and repeat!");
         }
     }
 }
