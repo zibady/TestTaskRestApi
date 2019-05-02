@@ -1,8 +1,8 @@
 Create REST API for personnel monitoring and management in IT company. 
 Uses Java 8, MySQL, Spring Boot, Spring Core, Spring Data.
 
-####Examples of requests:
-#####Method GET
+#### Examples of requests:
+##### Method GET
 - Get all people in company: http://your_url/person
 - Get one person: http://your_url/person/person_id
 - Get all department in company: http://your_url/department
@@ -11,7 +11,7 @@ Uses Java 8, MySQL, Spring Boot, Spring Core, Spring Data.
 - Get one position: http://your_url/position/position_id
 - Get all project in company: http://your_url/project
 - Get one project: http://your_url/project/project_id
-#####Method POST
+##### Method POST
 - Create/Add person in company: http://your_url/person
   - Content-Type application-json
   - Body: 
@@ -44,7 +44,7 @@ Uses Java 8, MySQL, Spring Boot, Spring Core, Spring Data.
   {
    "name": "Project_name",
   } 
-#####Method PUT
+##### Method PUT
 Required item -  id. Others if not in JSON - will not be changed.
 - Update/change person: http://your_url/person
   - Content-Type application-json
@@ -82,7 +82,7 @@ Required item -  id. Others if not in JSON - will not be changed.
    "id": "project_id",
    "name": "Project_name",
   }
-#####Method DELETE
+##### Method DELETE
 - Delete one person: http://your_url/person/person_id
 - Delete department: http://your_url/department/department_id
 - Delete position: http://your_url/position/position_id
